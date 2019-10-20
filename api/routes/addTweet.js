@@ -5,10 +5,11 @@ var router = express.Router();
 var Twitter = require("twitter-node-client").Twitter;
 import {CONFIG} from "./constants"
 
-router.get("/", function(req, res, next) {
+router.post("/", function(req, res, next) {
     var twitter = new Twitter(CONFIG);
-    var options = { screen_name: 'JahnaviRangu'};
-    twitter.getUserTimeline(options, function(err, response, body) {
+    var options = { status:req.body.status};
+    console.log(options);
+    twitter.postTweet(options, function(err, response, body) {
         console.log(err);
     }, function(data){
         console.log(data)

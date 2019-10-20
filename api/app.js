@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var getTimelineRouter = require('./routes/getTimeline')
+var addTweetRouter = require('./routes/addTweet')
 
 var app = express();
 
@@ -21,10 +23,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/getTimeline", getTimelineRouter);
+app.use("/addTweet", addTweetRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

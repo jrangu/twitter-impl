@@ -1,6 +1,6 @@
-export const CREDENTIALS = {
-    consumer_key:         '',
-    consumer_secret:      '',
-    access_token:         '',
-    access_token_secret:  ''
+export const CONFIG = {
+    consumerKey:process.env.consumerKey,
+    consumerSecret:process.env.consumerSecret,
+    accessToken:process.env.accessToken,
+    accessTokenSecret:process.env.accessTokenSecret
 }
