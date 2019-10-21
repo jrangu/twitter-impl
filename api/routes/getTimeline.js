@@ -6,9 +6,9 @@ var Twitter = require("twitter-node-client").Twitter;
 import {CONFIG} from "./constants"
 
 router.get("/", function(req, res, next) {
+    // console.log(CONFIG);
     var twitter = new Twitter(CONFIG);
-    var options = { screen_name: 'JahnaviRangu'};
-    twitter.getUserTimeline(options, function(err, response, body) {
+    twitter.getUserTimeline({}, function(err, response, body) {
         console.log(err);
     }, function(data){
         console.log(data)
