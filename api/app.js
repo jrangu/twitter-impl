@@ -8,8 +8,9 @@ var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var getTimelineRouter = require('./routes/getTimeline')
-var addTweetRouter = require('./routes/addTweet')
+var getTimelineRouter = require('./routes/getTimeline');
+var addTweetRouter = require('./routes/addTweet');
+var deleteTweetRouter = require('./routes/deleteTweet');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/getTimeline", getTimelineRouter);
 app.use("/addTweet", addTweetRouter)
+app.use("/deleteTweet", deleteTweetRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
