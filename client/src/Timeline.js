@@ -8,7 +8,7 @@ class Timeline extends Component  {
     super(props) 
     this.state = { 
       apiResponse: [],
-      text: "" 
+      value: "" 
     };
  }
 
@@ -23,20 +23,39 @@ class Timeline extends Component  {
       .then(res => res.json());
   }
 
+  callCreateApi(){
+  var payload = {
+    status: this.state.value
+  };
+
+  fetch("http://192.168.0.6:3000/addTweet/",
+  {
+    method: "POST",
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify( payload )
+  })
+  .then(function(res){ return res.json(); })
+  }
+
   componentWillMount() {
     this.callTimelineApi();
   }
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+    //this.setState({ [event.target.name]: event.target.value });
+  }
+
  renderTableData() {
   return this.state.apiResponse.map((response, index) => {
-     const { id, created_at, text } = response 
+     const { id, created_at, text, user, name, screenName } = response 
 
      return (
         <tr key={id}>
            <td>{created_at}</td>
            <td>
-            <Col>{text}</Col>
-            <Row>{id}</Row>
+            <Col>{response.user.name+" @"+response.user.screen_name}</Col>
+            <Row>{text}</Row>
            </td>
            <td><button onClick={() => this.callDeleteApi(response.id)}>
               Delete
@@ -46,22 +65,21 @@ class Timeline extends Component  {
      )
   })
 }
-delete(){
-  alert("checking");
-}
+
   render() {
     return (
       <form>
         <div className="GetTweets">
         <textarea
               rows="5"
-              cols="60"
+              cols="100"
               type="text"
               name="text"
               placeholder="Tweet to the world!"
-              value={this.state.text}
+              value={this.props.content}
+              onChange={this.onChange}
             />
-          <button>
+          <button onClick = {() => this.callCreateApi()}>
               Tweet
             </button>
       </div>
@@ -69,7 +87,7 @@ delete(){
         <div className="lander">
           <h1>Timeline</h1>
           <table>
-            <col width="250"/>
+            <col width="400"/>
             <col width="400"/>
                <tbody>
                   {this.renderTableData()}
