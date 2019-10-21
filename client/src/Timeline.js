@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import "./Timeline.css";
-import { LinkContainer } from "react-router-bootstrap";
-import { Button, Row, Col, FormGroup,ControlLabel,FormControl} from "react-bootstrap";
+import { Row, Col} from "react-bootstrap";
 
 class Timeline extends Component  {
   constructor(props) {
     super(props) 
     this.state = { 
       apiResponse: [],
-      text: "" 
+      value: "" 
     };
+    this.handleChange = this.handleChange.bind(this);
  }
 
  callTimelineApi() {
@@ -20,48 +20,62 @@ class Timeline extends Component  {
 
   callDeleteApi(tweetid){
     fetch("http://192.168.0.6:3000/deleteTweet/"+tweetid)
-      .then(res => res.json());
+      .then(res => res.json())
+      .then(alert("Your tweet is deleted"));
+  }
+
+  callCreateApi(){
+    var payload = {
+      status: this.state.value
+    };
+    fetch("http://192.168.0.6:3000/addTweet/",
+    {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify( payload )
+    })
+    .then(function(res){ return res.json(); })
   }
 
   componentWillMount() {
     this.callTimelineApi();
   }
 
- renderTableData() {
-  return this.state.apiResponse.map((response, index) => {
-     const { id, created_at, text } = response 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
 
+renderTableData() {
+  return this.state.apiResponse.map((response, index) => {
+     const { id, created_at, text, user, name, screenName } = response 
      return (
         <tr key={id}>
            <td>{created_at}</td>
            <td>
-            <Col>{text}</Col>
-            <Row>{id}</Row>
+            <Col>{response.user.name+" @"+response.user.screen_name}</Col>
+            <Row>{text}</Row>
            </td>
            <td><button onClick={() => this.callDeleteApi(response.id)}>
-              Delete
+                Delete
               </button>
             </td>
         </tr>
      )
   })
 }
-delete(){
-  alert("checking");
-}
+
   render() {
     return (
       <form>
         <div className="GetTweets">
         <textarea
               rows="5"
-              cols="60"
-              type="text"
-              name="text"
+              cols="100"
               placeholder="Tweet to the world!"
-              value={this.state.text}
+              value={this.state.value}
+              onChange={this.handleChange}
             />
-          <button>
+          <button onClick = {() => this.callCreateApi()}>
               Tweet
             </button>
       </div>
@@ -69,11 +83,11 @@ delete(){
         <div className="lander">
           <h1>Timeline</h1>
           <table>
-            <col width="250"/>
             <col width="400"/>
-               <tbody>
+            <col width="400"/>
+                <tbody>
                   {this.renderTableData()}
-               </tbody>
+                </tbody>
             </table>
         </div>
       </div>
