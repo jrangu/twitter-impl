@@ -1,0 +1,35 @@
+@media all and (min-width: 480px) {
+  .Timeline .lander {
+      text-align: center;
+    }
+    .Timeline .lander table{
+      margin-top: 0px;
+      padding: 0px;
+      margin-left: 20%;
+    }
+    
+    .Timeline .lander h1 {
+      font-size: 20px;
+      color: #00acee;
+    }
+    
+
+  .Timeline .lander tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .Timeline .lander td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  .Timeline form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+  .Timeline .GetTweets button {
+    margin-top: 10 auto;
+  }
+
+}

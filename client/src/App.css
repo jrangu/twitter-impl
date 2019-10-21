@@ -1,22 +1,16 @@
 .App {
   text-align: center;
+  
 }
 
-.App-logo {
-  height: 40vmin;
+.App .navbar-brand {
+  font-weight: bold;
+  color: #00acee;
+  font-size: 20px;
+ 
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+.App .navbar-header{
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
