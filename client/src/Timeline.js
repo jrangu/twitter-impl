@@ -21,7 +21,6 @@ class Timeline extends Component  {
   callDeleteApi(tweetid){
     fetch("http://192.168.0.6:3000/deleteTweet/"+tweetid)
       .then(res => res.json());
-      //.then(res => this.setState({ apiResponse: res }));
   }
 
   componentWillMount() {
@@ -39,7 +38,7 @@ class Timeline extends Component  {
             <Col>{text}</Col>
             <Row>{id}</Row>
            </td>
-           <td><button onClick={() => this.callDeleteApi()}>
+           <td><button onClick={() => this.callDeleteApi(response.id)}>
               Delete
               </button>
             </td>
