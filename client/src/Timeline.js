@@ -13,22 +13,24 @@ class Timeline extends Component  {
  }
 
  callTimelineApi() {
-  fetch("http://192.168.0.6:3000/getTimeline")
+  fetch("http://localhost:3000/getTimeline")
       .then(res => res.json())
       .then(res => this.setState({ apiResponse: res }));
   }
 
   callDeleteApi(tweetid){
-    fetch("http://192.168.0.6:3000/deleteTweet/"+tweetid)
-      .then(res => res.json())
-      .then(alert("Your tweet is deleted"));
+    alert(tweetid);
+    fetch("http://localhost:3000/deleteTweet/"+tweetid, {
+      method: "POST"
+    })
+      .then(res => res.json());
   }
 
   callCreateApi(){
     var payload = {
       status: this.state.value
     };
-    fetch("http://192.168.0.6:3000/addTweet/",
+    fetch("http://localhost:3000/addTweet/",
     {
       method: "POST",
       headers: {'Content-Type':'application/json'},
@@ -46,16 +48,16 @@ class Timeline extends Component  {
   }
 
 renderTableData() {
-  return this.state.apiResponse.map((response, index) => {
-     const { id, created_at, text, user, name, screenName } = response 
+  return this.state.apiResponse.map((response) => {
+     const { id_str, created_at, text } = response 
      return (
-        <tr key={id}>
+        <tr key={id_str}>
            <td>{created_at}</td>
            <td>
             <Col>{response.user.name+" @"+response.user.screen_name}</Col>
             <Row>{text}</Row>
            </td>
-           <td><button onClick={() => this.callDeleteApi(response.id)}>
+           <td><button onClick={() => this.callDeleteApi(response.id_str)}>
                 Delete
               </button>
             </td>
@@ -70,7 +72,7 @@ renderTableData() {
         <div className="GetTweets">
         <textarea
               rows="5"
-              cols="100"
+              cols="90"
               placeholder="Tweet to the world!"
               value={this.state.value}
               onChange={this.handleChange}
@@ -83,7 +85,7 @@ renderTableData() {
         <div className="lander">
           <h1>Timeline</h1>
           <table>
-            <col width="400"/>
+            <col width="250"/>
             <col width="400"/>
                 <tbody>
                   {this.renderTableData()}
